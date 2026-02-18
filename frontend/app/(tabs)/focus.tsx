@@ -8,8 +8,9 @@ import {
   Switch,
   StatusBar,
   Animated,
+  Modal,
 } from 'react-native';
-import { ZapIcon, CheckSquareIcon, SquareIcon, ClockIcon, BellOffIcon, TrophyIcon } from 'lucide-react-native';
+import { ZapIcon, CheckSquareIcon, SquareIcon, BellOffIcon, TrophyIcon, XIcon, StarIcon } from 'lucide-react-native';
 
 const APPS_TO_BLOCK = [
   { name: 'Instagram', icon: '📸', category: 'Social' },
