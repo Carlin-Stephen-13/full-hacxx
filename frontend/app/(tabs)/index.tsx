@@ -275,13 +275,14 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Notification Banner */}
-        <View style={styles.notifBanner}>
-          <AlertTriangleIcon color="#F59E0B" size={16} />
-          <Text style={styles.notifText}>
-            Distraction loop detected: Instagram → WhatsApp → YouTube
-          </Text>
-        </View>
+          {/* Notification Banner */}
+          <TouchableOpacity style={styles.notifBanner} onPress={openPopup}>
+            <AlertTriangleIcon color="#F59E0B" size={16} />
+            <Text style={styles.notifText}>
+              Distraction loop detected: Instagram → WhatsApp → YouTube
+            </Text>
+            <ChevronRightIcon color="#F59E0B" size={14} />
+          </TouchableOpacity>
 
         <View style={{ height: 20 }} />
       </ScrollView>
