@@ -9,8 +9,10 @@ import {
   StatusBar,
   Animated,
   Modal,
+  Platform,
 } from 'react-native';
 import { ZapIcon, CheckSquareIcon, SquareIcon, BellOffIcon, TrophyIcon, XIcon, StarIcon } from 'lucide-react-native';
+import { saveSession, clearSession, loadSession } from '@/lib/focusSession';
 
 const APPS_TO_BLOCK = [
   { name: 'Instagram', icon: '📸', category: 'Social' },
