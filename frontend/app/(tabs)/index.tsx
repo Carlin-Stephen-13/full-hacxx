@@ -440,4 +440,74 @@ const styles = StyleSheet.create({
     borderColor: '#F59E0B44',
   },
   notifText: { color: '#F59E0B', fontSize: 12, flex: 1, lineHeight: 17 },
+
+  // Modal
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'flex-end',
+  },
+  modalSheet: {
+    backgroundColor: '#13132A',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    padding: 24,
+    paddingBottom: 36,
+    borderTopWidth: 1,
+    borderColor: '#2A2A4A',
+  },
+  modalHandle: {
+    width: 40, height: 4, borderRadius: 2,
+    backgroundColor: '#3A3A5A', alignSelf: 'center', marginBottom: 20,
+  },
+  modalHeader: {
+    flexDirection: 'row', alignItems: 'center', gap: 14, marginBottom: 20,
+  },
+  modalIconBadge: {
+    width: 46, height: 46, borderRadius: 14,
+    backgroundColor: '#2A1E00', alignItems: 'center', justifyContent: 'center',
+    borderWidth: 1, borderColor: '#F59E0B44',
+  },
+  modalTitle: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
+  modalSubtitle: { color: '#888899', fontSize: 12, marginTop: 2 },
+  modalClose: {
+    width: 32, height: 32, borderRadius: 10,
+    backgroundColor: '#1E1E3A', alignItems: 'center', justifyContent: 'center',
+  },
+  chainRow: {
+    flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 20, flexWrap: 'wrap',
+  },
+  chainChip: {
+    backgroundColor: '#1E1E3A', borderRadius: 10,
+    paddingHorizontal: 12, paddingVertical: 7,
+    borderWidth: 1, borderColor: '#F59E0B44',
+  },
+  chainChipText: { color: '#F59E0B', fontSize: 12, fontWeight: '700' },
+  chainArrow: { color: '#555566', fontSize: 16, fontWeight: '700' },
+  modalStatsRow: {
+    flexDirection: 'row', gap: 10, marginBottom: 18,
+  },
+  modalStat: {
+    flex: 1, backgroundColor: '#1B1B3A', borderRadius: 12, padding: 14,
+    alignItems: 'center', gap: 4, borderWidth: 1, borderColor: '#2A2A4A',
+  },
+  modalStatVal: { color: '#FFFFFF', fontSize: 18, fontWeight: '800' },
+  modalStatLabel: { color: '#888899', fontSize: 11 },
+  modalSuggestion: {
+    flexDirection: 'row', alignItems: 'flex-start', gap: 10,
+    backgroundColor: '#1B1B3A', borderRadius: 12, padding: 14,
+    borderWidth: 1, borderColor: '#6366F133', marginBottom: 20,
+  },
+  modalSuggestionText: { color: '#AAAACC', fontSize: 12, flex: 1, lineHeight: 18 },
+  modalBtn: {
+    backgroundColor: '#6366F1', borderRadius: 14, padding: 16,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: 8, marginBottom: 10,
+  },
+  modalBtnText: { color: '#FFFFFF', fontSize: 15, fontWeight: '800' },
+  modalBtnSecondary: {
+    backgroundColor: '#1E1E3A', borderRadius: 14, padding: 16,
+    alignItems: 'center', borderWidth: 1, borderColor: '#2A2A4A',
+  },
+  modalBtnSecondaryText: { color: '#AAAACC', fontSize: 14, fontWeight: '600' },
 });
