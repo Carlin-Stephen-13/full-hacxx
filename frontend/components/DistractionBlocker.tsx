@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import {
   Modal,
   View,
@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Platform,
   Animated,
-  useRef,
 } from 'react-native';
 import { ZapIcon, ShieldIcon, XIcon, AlertTriangleIcon } from 'lucide-react-native';
 import { loadSessionSync, FocusSession } from '../lib/focusSession';
