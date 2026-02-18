@@ -420,4 +420,51 @@ const styles = StyleSheet.create({
   todoItem: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   todoDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#6366F1' },
   todoText: { color: '#CCCCDD', fontSize: 13 },
+
+  // Modal
+  modalOverlay: {
+    flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'flex-end',
+  },
+  modalSheet: {
+    backgroundColor: '#13132A', borderTopLeftRadius: 24, borderTopRightRadius: 24,
+    padding: 24, paddingBottom: 36, borderTopWidth: 1, borderColor: '#2A2A4A',
+  },
+  modalHandle: {
+    width: 40, height: 4, borderRadius: 2,
+    backgroundColor: '#3A3A5A', alignSelf: 'center', marginBottom: 20,
+  },
+
+  // Celebration
+  celebCenter: { alignItems: 'center', marginBottom: 24 },
+  trophyBadge: {
+    width: 80, height: 80, borderRadius: 24, backgroundColor: '#2A1E00',
+    alignItems: 'center', justifyContent: 'center',
+    borderWidth: 2, borderColor: '#F59E0B55', marginBottom: 16,
+  },
+  celebTitle: { color: '#FFFFFF', fontSize: 22, fontWeight: '800', marginBottom: 8 },
+  celebSubtitle: { color: '#888899', fontSize: 13, textAlign: 'center', lineHeight: 19 },
+  celebStatsRow: { flexDirection: 'row', gap: 10, marginBottom: 16 },
+  celebStat: {
+    flex: 1, backgroundColor: '#1B1B3A', borderRadius: 12, padding: 14,
+    alignItems: 'center', gap: 4, borderWidth: 1, borderColor: '#2A2A4A',
+  },
+  celebStatVal: { color: '#FFFFFF', fontSize: 20, fontWeight: '800' },
+  celebStatLabel: { color: '#888899', fontSize: 11 },
+  streakRow: {
+    flexDirection: 'row', alignItems: 'center', gap: 8,
+    backgroundColor: '#2A1E00', borderRadius: 10, padding: 12,
+    borderWidth: 1, borderColor: '#F59E0B33', marginBottom: 20,
+  },
+  streakText: { color: '#F59E0B', fontSize: 13, fontWeight: '600' },
+  celebBtn: {
+    backgroundColor: '#6366F1', borderRadius: 14, padding: 16,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: 8, marginBottom: 10,
+  },
+  celebBtnText: { color: '#FFFFFF', fontSize: 15, fontWeight: '800' },
+  celebBtnSecondary: {
+    backgroundColor: '#1E1E3A', borderRadius: 14, padding: 16,
+    alignItems: 'center', borderWidth: 1, borderColor: '#2A2A4A',
+  },
+  celebBtnSecondaryText: { color: '#AAAACC', fontSize: 14, fontWeight: '600' },
 });
