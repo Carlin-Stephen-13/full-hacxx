@@ -32,6 +32,38 @@ import {
 export default function HomeScreen() {
   const router = useRouter();
   const topApps = APP_USAGE_DATA.slice(0, 3);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [autoPopupShown, setAutoPopupShown] = useState(false);
+  const slideAnim = React.useRef(new Animated.Value(300)).current;
+
+  // Auto-show popup after 2 seconds
+  useEffect(() => {
+    if (!autoPopupShown) {
+      const timer = setTimeout(() => {
+        setAutoPopupShown(true);
+        openPopup();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const openPopup = () => {
+    setPopupVisible(true);
+    Animated.spring(slideAnim, {
+      toValue: 0,
+      useNativeDriver: true,
+      tension: 65,
+      friction: 11,
+    }).start();
+  };
+
+  const closePopup = () => {
+    Animated.timing(slideAnim, {
+      toValue: 300,
+      duration: 250,
+      useNativeDriver: true,
+    }).start(() => setPopupVisible(false));
+  };
 
   return (
     <View style={styles.container}>
