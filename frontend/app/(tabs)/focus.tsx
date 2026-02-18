@@ -78,6 +78,14 @@ export default function FocusScreen() {
     }
   }, [running]);
 
+  const closeCelebration = () => {
+    Animated.timing(celebSlide, {
+      toValue: 300,
+      duration: 250,
+      useNativeDriver: true,
+    }).start(() => setCelebrationVisible(false));
+  };
+
   const toggleBlocked = (name: string) => {
     setBlocked((prev) => {
       const next = new Set(prev);
