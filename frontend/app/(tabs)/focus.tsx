@@ -53,6 +53,14 @@ export default function FocusScreen() {
     } else if (timeLeft === 0 && running) {
       setRunning(false);
       setCompleted(true);
+      // Show celebration popup
+      setCelebrationVisible(true);
+      Animated.spring(celebSlide, {
+        toValue: 0,
+        useNativeDriver: true,
+        tension: 65,
+        friction: 11,
+      }).start();
     }
     return () => { if (interval) clearInterval(interval); };
   }, [running, timeLeft]);
