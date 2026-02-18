@@ -1,15 +1,15 @@
 import { useRouter } from 'expo-router';
 import {
   AlertTriangleIcon,
-  ArrowRightIcon,
   BrainIcon,
   ChevronRightIcon,
   ClockIcon,
   SmartphoneIcon,
   TrendingUpIcon,
+  XIcon,
   ZapIcon,
 } from 'lucide-react-native';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ScrollView,
   Text,
@@ -17,6 +17,8 @@ import {
   View,
   StyleSheet,
   StatusBar,
+  Modal,
+  Animated,
 } from 'react-native';
 import {
   APP_USAGE_DATA,
