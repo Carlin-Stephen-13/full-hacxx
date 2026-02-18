@@ -42,6 +42,20 @@ export default function FocusScreen() {
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const celebSlide = useRef(new Animated.Value(300)).current;
 
+  // Restore active session on mount (e.g. after reload)
+  useEffect(() => {
+    loadSession().then((s) => {
+      if (s && s.active) {
+        setFocusOn(true);
+        setBlocked(new Set(s.blockedApps));
+        setTimerPreset(s.durationMinutes);
+        const remaining = Math.max(0, Math.floor((s.endsAt - Date.now()) / 1000));
+        setTimeLeft(remaining);
+        if (remaining > 0) setRunning(true);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     setTimeLeft(timerPreset * 60);
     setRunning(false);
