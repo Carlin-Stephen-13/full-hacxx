@@ -68,6 +68,90 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#0A0A14" />
+
+      {/* Distraction Loop Popup Modal */}
+      <Modal
+        visible={popupVisible}
+        transparent
+        animationType="none"
+        onRequestClose={closePopup}>
+        <TouchableOpacity style={styles.modalOverlay} activeOpacity={1} onPress={closePopup}>
+          <Animated.View
+            style={[styles.modalSheet, { transform: [{ translateY: slideAnim }] }]}>
+            <TouchableOpacity activeOpacity={1} onPress={() => {}}>
+              {/* Handle */}
+              <View style={styles.modalHandle} />
+
+              {/* Modal Header */}
+              <View style={styles.modalHeader}>
+                <View style={styles.modalIconBadge}>
+                  <AlertTriangleIcon color="#F59E0B" size={22} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.modalTitle}>Distraction Loop Detected</Text>
+                  <Text style={styles.modalSubtitle}>Just now · 3 apps involved</Text>
+                </View>
+                <TouchableOpacity onPress={closePopup} style={styles.modalClose}>
+                  <XIcon color="#555566" size={18} />
+                </TouchableOpacity>
+              </View>
+
+              {/* Loop Chain */}
+              <View style={styles.chainRow}>
+                {['📸 Instagram', '💬 WhatsApp', '▶️ YouTube'].map((app, i, arr) => (
+                  <React.Fragment key={i}>
+                    <View style={styles.chainChip}>
+                      <Text style={styles.chainChipText}>{app}</Text>
+                    </View>
+                    {i < arr.length - 1 && (
+                      <Text style={styles.chainArrow}>→</Text>
+                    )}
+                  </React.Fragment>
+                ))}
+              </View>
+
+              {/* Stats */}
+              <View style={styles.modalStatsRow}>
+                <View style={styles.modalStat}>
+                  <Text style={styles.modalStatVal}>3×</Text>
+                  <Text style={styles.modalStatLabel}>Today</Text>
+                </View>
+                <View style={styles.modalStat}>
+                  <Text style={styles.modalStatVal}>47m</Text>
+                  <Text style={styles.modalStatLabel}>Time Lost</Text>
+                </View>
+                <View style={styles.modalStat}>
+                  <Text style={styles.modalStatVal}>2:30 PM</Text>
+                  <Text style={styles.modalStatLabel}>Last Loop</Text>
+                </View>
+              </View>
+
+              {/* Suggestion */}
+              <View style={styles.modalSuggestion}>
+                <BrainIcon color="#6366F1" size={14} />
+                <Text style={styles.modalSuggestionText}>
+                  This loop usually starts after checking Instagram. Try enabling Focus Mode to break the cycle.
+                </Text>
+              </View>
+
+              {/* Actions */}
+              <TouchableOpacity
+                style={styles.modalBtn}
+                onPress={() => { closePopup(); router.push('/(tabs)/focus'); }}>
+                <ZapIcon color="#FFF" size={16} />
+                <Text style={styles.modalBtnText}>Enable Focus Mode Now</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.modalBtnSecondary}
+                onPress={() => { closePopup(); router.push('/analytics/distraction'); }}>
+                <Text style={styles.modalBtnSecondaryText}>View Distraction Analysis</Text>
+              </TouchableOpacity>
+            </TouchableOpacity>
+          </Animated.View>
+        </TouchableOpacity>
+      </Modal>
+
       <ScrollView
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}>
