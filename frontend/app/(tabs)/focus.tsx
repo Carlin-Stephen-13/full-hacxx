@@ -96,16 +96,34 @@ export default function FocusScreen() {
     });
   };
 
-  const handleStart = () => {
+  const handleStart = async () => {
     if (!focusOn) setFocusOn(true);
     setCompleted(false);
+    const durationMs = timerPreset * 60 * 1000;
+    const now = Date.now();
+    const session = {
+      active: true,
+      blockedApps: Array.from(blocked),
+      durationMinutes: timerPreset,
+      startedAt: now,
+      endsAt: now + durationMs,
+    };
+    await saveSession(session);
+    // Notify DistractionBlocker that a session has started
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('focusSessionStarted'));
+    }
     setTimeLeft(timerPreset * 60);
     setRunning(true);
   };
 
-  const handleStop = () => {
+  const handleStop = async () => {
     setRunning(false);
     setTimeLeft(timerPreset * 60);
+    await clearSession();
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('focusSessionEnded'));
+    }
   };
 
   const progress = 1 - timeLeft / (timerPreset * 60);
