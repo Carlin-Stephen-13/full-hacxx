@@ -36,7 +36,9 @@ export default function FocusScreen() {
   const [running, setRunning] = useState(false);
   const [timeLeft, setTimeLeft] = useState(25 * 60);
   const [completed, setCompleted] = useState(false);
+  const [celebrationVisible, setCelebrationVisible] = useState(false);
   const pulseAnim = useRef(new Animated.Value(1)).current;
+  const celebSlide = useRef(new Animated.Value(300)).current;
 
   useEffect(() => {
     setTimeLeft(timerPreset * 60);
