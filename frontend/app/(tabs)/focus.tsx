@@ -55,6 +55,10 @@ export default function FocusScreen() {
     } else if (timeLeft === 0 && running) {
       setRunning(false);
       setCompleted(true);
+      clearSession();
+      if (Platform.OS === 'web' && typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('focusSessionEnded'));
+      }
       // Show celebration popup
       setCelebrationVisible(true);
       Animated.spring(celebSlide, {
