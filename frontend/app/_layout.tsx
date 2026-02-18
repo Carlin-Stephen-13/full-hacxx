@@ -12,8 +12,8 @@ export default function RootLayout() {
 
   return (
     <ErrorBoundary>
-      <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
-        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+      <ThemeProvider value={NAV_THEME[colorScheme ?? 'dark']}>
+        <StatusBar style="light" />
         <Stack screenOptions={{ headerShown: false }} />
       </ThemeProvider>
     </ErrorBoundary>
