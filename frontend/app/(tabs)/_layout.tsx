@@ -30,13 +30,13 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => <HomeIcon color={color} size={size - 2} />,
         }}
       />
-      <Tabs.Screen
-        name="analytics/index"
-        options={{
-          title: 'Analytics',
-          tabBarIcon: ({ color, size }) => <BarChart2Icon color={color} size={size - 2} />,
-        }}
-      />
+        <Tabs.Screen
+          name="analytics"
+          options={{
+            title: 'Analytics',
+            tabBarIcon: ({ color, size }) => <BarChart2Icon color={color} size={size - 2} />,
+          }}
+        />
       <Tabs.Screen
         name="focus"
         options={{
