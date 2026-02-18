@@ -113,6 +113,69 @@ export default function FocusScreen() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#0A0A14" />
+
+      {/* Session Complete Celebration Modal */}
+      <Modal
+        visible={celebrationVisible}
+        transparent
+        animationType="none"
+        onRequestClose={closeCelebration}>
+        <TouchableOpacity style={styles.modalOverlay} activeOpacity={1} onPress={closeCelebration}>
+          <Animated.View style={[styles.modalSheet, { transform: [{ translateY: celebSlide }] }]}>
+            <TouchableOpacity activeOpacity={1} onPress={() => {}}>
+              <View style={styles.modalHandle} />
+
+              {/* Trophy */}
+              <View style={styles.celebCenter}>
+                <View style={styles.trophyBadge}>
+                  <TrophyIcon color="#F59E0B" size={40} />
+                </View>
+                <Text style={styles.celebTitle}>Session Complete!</Text>
+                <Text style={styles.celebSubtitle}>
+                  You completed a {timerPreset}-minute focus session. Amazing work!
+                </Text>
+              </View>
+
+              {/* Stats */}
+              <View style={styles.celebStatsRow}>
+                <View style={styles.celebStat}>
+                  <Text style={styles.celebStatVal}>{timerPreset}m</Text>
+                  <Text style={styles.celebStatLabel}>Focused</Text>
+                </View>
+                <View style={styles.celebStat}>
+                  <Text style={styles.celebStatVal}>{blocked.size}</Text>
+                  <Text style={styles.celebStatLabel}>Apps Blocked</Text>
+                </View>
+                <View style={styles.celebStat}>
+                  <Text style={styles.celebStatVal}>+5</Text>
+                  <Text style={styles.celebStatLabel}>Focus Score</Text>
+                </View>
+              </View>
+
+              {/* Streak badge */}
+              <View style={styles.streakRow}>
+                <StarIcon color="#F59E0B" size={14} />
+                <Text style={styles.streakText}>3-day focus streak! Keep it up!</Text>
+              </View>
+
+              <TouchableOpacity
+                style={styles.celebBtn}
+                onPress={() => {
+                  closeCelebration();
+                  setTimeLeft(timerPreset * 60);
+                  setCompleted(false);
+                }}>
+                <ZapIcon color="#FFF" size={16} />
+                <Text style={styles.celebBtnText}>Start Another Session</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.celebBtnSecondary} onPress={closeCelebration}>
+                <Text style={styles.celebBtnSecondaryText}>Done for Now</Text>
+              </TouchableOpacity>
+            </TouchableOpacity>
+          </Animated.View>
+        </TouchableOpacity>
+      </Modal>
+
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
