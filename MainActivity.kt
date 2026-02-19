@@ -101,6 +101,61 @@ class MainActivity : AppCompatActivity() {
         updatePermissionStatus()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_options, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_baseline_collection -> {
+                if (DistractionModeManager.isCollecting(this)) {
+                    DistractionModeManager.stopBaselineCollection(this)
+                    Toast.makeText(this, "Baseline collection stopped", Toast.LENGTH_SHORT).show()
+                } else {
+                    if (!hasUsageStatsPermission()) {
+                        AlertDialog.Builder(this)
+                            .setTitle("Usage Access Required")
+                            .setMessage("Grant Usage Access to collect app usage for distraction analysis.")
+                            .setPositiveButton("Open Settings") { _, _ ->
+                                startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+                            }
+                            .setNegativeButton("Cancel", null).show()
+                        return true
+                    }
+                    DistractionModeManager.startBaselineCollection(this)
+                    Toast.makeText(this, "Collecting usage for 3-5 days to build baseline", Toast.LENGTH_LONG).show()
+                }
+                return true
+            }
+            R.id.action_psychological_mode -> {
+                val enabled = !DistractionModeManager.isPsychologicalMode(this)
+                DistractionModeManager.setPsychologicalMode(this, enabled)
+                Toast.makeText(this,
+                    if (enabled) "Psychological mode ON (soft interventions)" else "Psychological mode OFF (hard blocking)",
+                    Toast.LENGTH_SHORT).show()
+                return true
+            }
+            R.id.action_distraction_info -> {
+                AlertDialog.Builder(this)
+                    .setTitle("Distraction Detection")
+                    .setMessage("• Baseline: Start collection from ⋮ menu, run 3-5 days.\n• Psychological mode: Soft interventions (\"Take a breath\") instead of blocking when distraction pattern detected.\n• Patterns: Known distracting apps during work hours or evening.")
+                    .setPositiveButton("OK", null)
+                    .show()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.action_baseline_collection)?.title =
+            if (DistractionModeManager.isCollecting(this)) "Stop baseline collection" else "Start baseline collection"
+        menu.findItem(R.id.action_psychological_mode)?.title =
+            if (DistractionModeManager.isPsychologicalMode(this)) "Psychological mode: ON" else "Psychological mode: OFF"
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onDestroy() {
         sessionRunnable?.let { handler.removeCallbacks(it) }
         super.onDestroy()

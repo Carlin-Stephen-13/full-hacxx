@@ -89,6 +89,9 @@ class FocusBlockerService : Service() {
 
     // ─── Core Blocking Logic ──────────────────────────────────────────────────
 
+    private var lastRecordedPackage: String? = null
+    private var lastRecordedTimeMs: Long = 0L
+
     private fun checkForegroundApp() {
         val session = SessionManager.getActiveSession(this)
 
@@ -100,8 +103,29 @@ class FocusBlockerService : Service() {
 
         val foregroundPackage = getForegroundPackage() ?: return
 
+        // Wireframe: record usage to local DB for distraction analysis
+        recordUsageForDistractionAnalysis(foregroundPackage)
+
         // Skip our own app and the block screen itself
         if (foregroundPackage == packageName) return
+
+        // Wireframe: If distraction pattern detected and psychological mode enabled, use interventions
+        if (PsychologicalInterventions.usePsychologicalMode(this)) {
+            val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+            val pattern = DistractionAnalyzer.isDistractionLoop(this, foregroundPackage, hour)
+            if (pattern != null) {
+                val now = System.currentTimeMillis()
+                if (foregroundPackage == lastBlockedPackage && now - lastBlockedTime < 2000L) {
+                    updateNotification(session.remainingSeconds)
+                    return
+                }
+                lastBlockedPackage = foregroundPackage
+                lastBlockedTime = now
+                applyPsychologicalIntervention(foregroundPackage, session.remainingSeconds)
+                updateNotification(session.remainingSeconds)
+                return
+            }
+        }
 
         if (session.blockedPackages.contains(foregroundPackage)) {
             // Debounce: don't spam BlockedActivity for the same package
@@ -146,13 +170,34 @@ class FocusBlockerService : Service() {
         return lastPackage
     }
 
-    private fun launchBlockScreen(packageName: String, remainingSeconds: Long) {
+    /** Wireframe: Store foreground app, app switching, and duration in local DB. */
+    private fun recordUsageForDistractionAnalysis(foregroundPackage: String) {
+        val now = System.currentTimeMillis()
+        if (foregroundPackage == packageName) return
+        if (lastRecordedPackage != null && lastRecordedPackage != foregroundPackage) {
+            AppUsageStatsDatabase.insertAppEvent(this, lastRecordedPackage!!, AppUsageStatsDatabase.EVENT_APP_SWITCH, now)
+            AppUsageStatsDatabase.insertAppDuration(this, lastRecordedPackage!!, lastRecordedTimeMs, now)
+        }
+        if (lastRecordedPackage != foregroundPackage) {
+            AppUsageStatsDatabase.insertAppEvent(this, foregroundPackage, AppUsageStatsDatabase.EVENT_FOREGROUND, now)
+        }
+        lastRecordedPackage = foregroundPackage
+        lastRecordedTimeMs = now
+    }
+
+    /** Wireframe: Psychological intervention instead of blocking — show delay / grayscale overlay. */
+    private fun applyPsychologicalIntervention(packageName: String, remainingSeconds: Long) {
+        launchBlockScreen(packageName, remainingSeconds, psychologicalMode = true)
+    }
+
+    private fun launchBlockScreen(packageName: String, remainingSeconds: Long, psychologicalMode: Boolean = false) {
         val intent = Intent(this, BlockedActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or
                     Intent.FLAG_ACTIVITY_CLEAR_TOP or
                     Intent.FLAG_ACTIVITY_SINGLE_TOP
             putExtra(BlockedActivity.EXTRA_PACKAGE_NAME, packageName)
             putExtra(BlockedActivity.EXTRA_REMAINING_SECONDS, remainingSeconds)
+            putExtra(BlockedActivity.EXTRA_PSYCHOLOGICAL_MODE, psychologicalMode)
         }
         startActivity(intent)
     }

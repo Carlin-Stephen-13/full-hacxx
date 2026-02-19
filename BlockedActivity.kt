@@ -27,8 +27,9 @@ import com.focusshield.databinding.ActivityBlockedBinding
 class BlockedActivity : AppCompatActivity() {
 
     companion object {
-        const val EXTRA_PACKAGE_NAME      = "blocked_package"
-        const val EXTRA_REMAINING_SECONDS = "remaining_seconds"
+        const val EXTRA_PACKAGE_NAME       = "blocked_package"
+        const val EXTRA_REMAINING_SECONDS  = "remaining_seconds"
+        const val EXTRA_PSYCHOLOGICAL_MODE = "psychological_mode"
     }
 
     private lateinit var binding: ActivityBlockedBinding
@@ -47,10 +48,11 @@ class BlockedActivity : AppCompatActivity() {
         binding = ActivityBlockedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val blockedPackage   = intent.getStringExtra(EXTRA_PACKAGE_NAME) ?: ""
-        val remainingSeconds = intent.getLongExtra(EXTRA_REMAINING_SECONDS, 0L)
+        val blockedPackage    = intent.getStringExtra(EXTRA_PACKAGE_NAME) ?: ""
+        val remainingSeconds  = intent.getLongExtra(EXTRA_REMAINING_SECONDS, 0L)
+        val psychologicalMode = intent.getBooleanExtra(EXTRA_PSYCHOLOGICAL_MODE, false)
 
-        setupAppInfo(blockedPackage)
+        setupAppInfo(blockedPackage, psychologicalMode)
         startCountdown(remainingSeconds)
         setupButtons()
     }
@@ -76,17 +78,22 @@ class BlockedActivity : AppCompatActivity() {
 
     // ─── Setup ────────────────────────────────────────────────────────────────
 
-    private fun setupAppInfo(packageName: String) {
+    private fun setupAppInfo(packageName: String, psychologicalMode: Boolean = false) {
         try {
             val pm = packageManager
             val appInfo = pm.getApplicationInfo(packageName, 0)
             val appName = pm.getApplicationLabel(appInfo).toString()
             val appIcon = pm.getApplicationIcon(appInfo)
 
-            binding.tvBlockedAppName.text = "$appName is blocked"
+            binding.tvBlockedAppName.text = if (psychologicalMode)
+                "Take a breath before $appName 🌬️" else "$appName is blocked"
             binding.ivBlockedAppIcon.setImageDrawable(appIcon)
+            if (psychologicalMode && PsychologicalInterventions.isGrayscaleEnabled(this)) {
+                binding.ivBlockedAppIcon.colorFilter = PsychologicalInterventions.createGrayscaleFilter()
+            }
         } catch (e: PackageManager.NameNotFoundException) {
-            binding.tvBlockedAppName.text = "This app is blocked"
+            binding.tvBlockedAppName.text = if (psychologicalMode)
+                "Take a breath" else "This app is blocked"
         }
     }
 

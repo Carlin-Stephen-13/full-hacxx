@@ -1,3 +1,4 @@
+adb devices
 package com.focusshield
 
 import android.content.Context

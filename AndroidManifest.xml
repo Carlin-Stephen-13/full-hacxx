@@ -86,5 +86,24 @@
             </intent-filter>
         </receiver>
 
+        <!-- Wireframe: Background monitoring - collects app usage for distraction analysis -->
+        <service
+            android:name=".UsageStatsCollectorService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="usageStatsCollection" />
+        </service>
+
+        <!-- Wireframe: Detect unlock events -->
+        <receiver
+            android:name=".ScreenUnlockReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest>
